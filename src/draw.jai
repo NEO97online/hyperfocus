@@ -195,6 +195,29 @@ draw_welcome_screen :: (main_area: Rect) {
         circle = shrink(circle, shrink_step);
         draw_rounded_rect(circle, Color.BACKGROUND_3, radius = circle.w / 2, set_shader = false);
 
+        Simp.set_shader_for_gradient(cast,force(Vector4) logo_rect, xx Gradient_Mode.hue_vertical_1d, 1.0);
+        Simp.immediate_triangle_fan(
+            .{logo_rect.x, logo_rect.y},
+            .[
+                xy(logo_rect.x, logo_rect.y),
+                xy(logo_rect.x, logo_rect.y) + xy(logo_rect.w, 0),
+                xy(logo_rect.x, logo_rect.y) + xy(logo_rect.w, logo_rect.h)/2,
+                // xy(logo_rect.x, logo_rect.y) + xy(logo_rect.w, logo_rect.h),
+                // xy(logo_rect.x, logo_rect.y),
+                // xy(logo_rect.x + 20, logo_rect.y + 20),
+                // xy(logo_rect.x + 40, logo_rect.y + 40),
+            ],
+            rgba(1,0,0,1),
+            rgba(0,1,0,1)
+        );
+        Simp.immediate_flush();
+
+        // draw_rounded_gradient_rect(circle, .hue_vertical_1d, 0.5, color_vec4=map_color_to_vec4(Color.BACKGROUND_1), radius=circle.w/2, softness=1.0);
+        // circle = shrink(circle, shrink_step);
+        // draw_rounded_gradient_rect(circle, .hue_vertical_1d, 0.5, color_vec4=map_color_to_vec4(Color.BACKGROUND_0), radius=circle.w/2, softness=1.0);
+        // circle = shrink(circle, shrink_step);
+        // draw_rounded_gradient_rect(circle, .hue_vertical_1d, 0.5, color_vec4=map_color_to_vec4(Color.BACKGROUND_3), radius=circle.w/2, softness=1.0);
+
         font := font_ui_big;
         version_text := tprint("Version %", VERSION);
         version_width := cast(float) Simp.prepare_text(font, version_text);
@@ -1454,6 +1477,44 @@ draw_editor :: (editor_id: s64, main_area: Rect, ui_id: Ui_Id, pane: *Editor_Pan
                     draw_rect_raw(guide, Color.INDENT_GUIDE);
                 }
                 guide.y -= line_height;
+            }
+        }
+
+        // Draw comment divider lines
+        if config.settings.show_comment_dividers {
+            divider := Rect.{ text_origin.x, text_origin.y - visible_lines_start * line_height + line_height, 0, 1 };
+
+            for line_num : visible_lines_start .. visible_lines_end {
+                line := get_line_as_string(editor, buffer, line_num);
+                line_width := Simp.get_text_width(font_ui, line);
+                line_trimmed := trim(line);
+                // Soft Divider
+                if starts_with(line_trimmed, "//-") {
+                    dashed_line_width := rect.w - text_origin.x - line_trimmed.count * char_x_advance;
+                    DASH_SEGMENT_WIDTH   :: 4.0;
+                    DASH_SEGMENT_SPACING :: 4.0;
+                    num_segments := cast(int) floor(dashed_line_width / DASH_SEGMENT_WIDTH);
+                    x := text_origin.x + line_trimmed.count * char_x_advance + char_x_advance;
+                    y := text_origin.y - line_num * line_height + line_height/2 - 1;
+                    for 0..num_segments-1 {
+                        seg: Rect;
+                        seg.x = x;
+                        seg.y = y;
+                        seg.w = DASH_SEGMENT_WIDTH;
+                        seg.h = 2;
+                        draw_rect_raw(seg, Color.INDENT_GUIDE);
+                        x += #run DASH_SEGMENT_WIDTH + DASH_SEGMENT_SPACING;
+                    }
+                }
+                // Hard Divider
+                if starts_with(line_trimmed, "//~") {
+                    div: Rect;
+                    div.x = text_origin.x;
+                    div.y = text_origin.y - line_num * line_height + line_height;
+                    div.w = rect.w;
+                    div.h = 2;
+                    draw_rect_raw(div, Color.INDENT_GUIDE);
+                }
             }
         }
 
@@ -3997,6 +4058,12 @@ draw_rect_raw :: inline (using rect: Rect, c00: Color, c01: Color, c10: Color, c
 draw_gradient_rect :: (rect: Rect, mode: Gradient_Mode, value: float, color_vec4 := Vector4.{1, 1, 1, 1}) {
     Simp.set_shader_for_gradient(cast,force(Vector4) rect, xx mode, value);
     draw_rect_with_raw_color(rect, color_vec4);
+    Simp.immediate_flush();
+}
+
+draw_rounded_gradient_rect :: (rect: Rect, mode: Gradient_Mode, value: float, color_vec4 := Vector4.{1, 1, 1, 1}, radius := 0.0, softness := 1.0) {
+    Simp.set_shader_for_gradient(cast,force(Vector4) rect, xx mode, value);
+    draw_rounded_rect_with_raw_color(rect, color_vec4, radius, softness, set_shader=false);
     Simp.immediate_flush();
 }
 

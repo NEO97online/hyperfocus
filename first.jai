@@ -33,7 +33,7 @@ build :: () {
     set_optimization(*options, .DEBUG);
     options.arithmetic_overflow_check = .FATAL;
     build_dir := "build_debug";
-    options.output_executable_name = "focus";
+    options.output_executable_name = "hyperfocus";
 
     for arg: args {
         if arg == {
@@ -51,7 +51,7 @@ build :: () {
             options.output_type = .NO_OUTPUT;
           case "windows7";
             windows7 = true;
-            options.output_executable_name = "focus_windows7";
+            options.output_executable_name = "hyperfocus_windows7";
           case;
             compiler_report(tprint("Command-line argument #%, '%', is invalid. Valid options are: 'debug', 'release'.\n", it_index+1, arg));
         }
@@ -166,8 +166,8 @@ build :: () {
 
         // Generate Focus.app inside our temporary directory
         set_working_directory(DMG_DIR);
-        create_app_bundle("Focus", tprint("../build_release/%", options.output_executable_name), "../images/mac.png", "", true, true);
-        write_entire_file("Focus.app/Contents/Info.plist", tprint(INFO_PLIST_CONTENTS, VERSION, VERSION));
+        create_app_bundle("Hyperfocus", tprint("../build_release/%", options.output_executable_name), "../images/mac.png", "", true, true);
+        write_entire_file("Hyperfocus.app/Contents/Info.plist", tprint(INFO_PLIST_CONTENTS, VERSION, VERSION));
         set_working_directory(#filepath);
 
         // Create a symbolic link to /Applications (what all the cool kids do)
