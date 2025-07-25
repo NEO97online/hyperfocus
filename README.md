@@ -1,8 +1,12 @@
-# Focus
+# Hyperfocus
 
-A simple editor whose goal is to get out of your way and let you do work.
+Fork of [Focus Editor](https://github.com/focus-editor).
 
-This editor is for people who value simplicity, are sensitive to input latency and do not require heavy language support in their editor.
+Similar to the original goal of Focus, Hyperfocus will get out of your way and let you do work. However, this fork places a stronger emphasis on the Jai programming language specifically, adding features to maximize the joy of programming.
+
+This editor is for people who value simplicity, are sensitive to input latency and want the best possible experience writing Jai.
+
+In spite of the emphasis on Jai, Hyperfocus will remain highly useful for everyday tasks in other text formats.
 
 ![focus-0 3 0](https://github.com/focus-editor/focus/assets/119373822/49a80c5a-f24a-469e-bbbb-88c315f9b391)
 

@@ -1215,3 +1215,5 @@ DEBUG_MEMORY_LEAKS :: false;
     #program_export
     __chkstk_darwin :: () #c_call {}
 }
+
+#load "hyperfocus.jai";
