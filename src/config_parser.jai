@@ -220,6 +220,7 @@ map_name_to_color :: (name: string) -> Color {
         case "char_under_cursor";                       return .CHAR_UNDER_CURSOR;
         case "active_pane_border";                      return .ACTIVE_PANE_BORDER;
         case "inactive_pane_dim_overlay";               return .INACTIVE_PANE_DIM_OVERLAY;
+        case "comment_divider";                         return .COMMENT_DIVIDER;
 
         case "ui_default";                              return .UI_DEFAULT;
         case "ui_dim";                                  return .UI_DIM;

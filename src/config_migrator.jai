@@ -630,6 +630,8 @@ ADDED_COLORS :: Added_Color.[
     .{ 21, "code_deletion"  ,                  "",                       "E64D4DFF" },
     .{ 21, "region_addition",                  "",                       "2260224C" },
     .{ 21, "region_deletion",                  "",                       "7722224C" },
+
+    .{ 25, "comment_divider",                  "",                       "FCEDFC26" },
 ];
 
 
@@ -1395,6 +1397,7 @@ cursor_position_after_jump:                      0.45  # controls where the curs
 closing_last_editor_in_pane_should_close_pane:   true
 closing_last_editor_should_exit_program:         false
 show_pane_numbers:                               false
+show_comment_dividers:                           true
 
 FOCUS_CONFIG
 
@@ -1544,6 +1547,7 @@ cursor_position_after_jump:                      0.45  # controls where the curs
 closing_last_editor_in_pane_should_close_pane:   true
 closing_last_editor_should_exit_program:         false
 show_pane_numbers:                               false
+show_comment_dividers:                           true
 
 FOCUS_CONFIG
 
@@ -1731,6 +1735,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -1819,6 +1824,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -1931,6 +1937,7 @@ cursor_position_after_jump:                      0.45  # controls where the curs
 closing_last_editor_in_pane_should_close_pane:   true
 closing_last_editor_should_exit_program:         false
 show_pane_numbers:                               false
+show_comment_dividers:                           true
 
 [[keymap]]
 # ...
@@ -2004,6 +2011,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -2133,6 +2141,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 [[keymap]]
 
@@ -2427,6 +2436,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -2608,5 +2618,6 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG

@@ -1480,19 +1480,22 @@ draw_editor :: (editor_id: s64, main_area: Rect, ui_id: Ui_Id, pane: *Editor_Pan
             }
         }
 
-        // Draw comment divider lines
+        //- neo: Draw comment divider lines
+
         if config.settings.show_comment_dividers {
             divider := Rect.{ text_origin.x, text_origin.y - visible_lines_start * line_height + line_height, 0, 1 };
 
             for line_num : visible_lines_start .. visible_lines_end {
                 line := get_line_as_string(editor, buffer, line_num);
                 line_width := Simp.get_text_width(font_ui, line);
-                line_trimmed := trim(line);
-                // Soft Divider
-                if starts_with(line_trimmed, "//-") {
-                    dashed_line_width := rect.w - text_origin.x - line_trimmed.count * char_x_advance;
-                    DASH_SEGMENT_WIDTH   :: 4.0;
-                    DASH_SEGMENT_SPACING :: 4.0;
+                line_trimmed := trim_right(line);
+
+                //- neo: Soft Divider
+
+                if starts_with(trim(line), "//-") {
+                    dashed_line_width := rect.x + rect.w - text_origin.x - line_trimmed.count * char_x_advance;
+                    DASH_SEGMENT_WIDTH   :: 5.0;
+                    DASH_SEGMENT_SPACING :: 7.0;
                     num_segments := cast(int) floor(dashed_line_width / DASH_SEGMENT_WIDTH);
                     x := text_origin.x + line_trimmed.count * char_x_advance + char_x_advance;
                     y := text_origin.y - line_num * line_height + line_height/2 - 1;
@@ -1501,22 +1504,27 @@ draw_editor :: (editor_id: s64, main_area: Rect, ui_id: Ui_Id, pane: *Editor_Pan
                         seg.x = x;
                         seg.y = y;
                         seg.w = DASH_SEGMENT_WIDTH;
-                        seg.h = 2;
-                        draw_rect_raw(seg, Color.INDENT_GUIDE);
+                        seg.h = 1;
+                        draw_rect_raw(seg, Color.COMMENT_DIVIDER);
                         x += #run DASH_SEGMENT_WIDTH + DASH_SEGMENT_SPACING;
                     }
                 }
-                // Hard Divider
-                if starts_with(line_trimmed, "//~") {
+
+                //- neo: Hard Divider
+
+                if starts_with(trim(line), "//~") {
                     div: Rect;
                     div.x = text_origin.x;
                     div.y = text_origin.y - line_num * line_height + line_height;
                     div.w = rect.w;
                     div.h = 2;
-                    draw_rect_raw(div, Color.INDENT_GUIDE);
+                    draw_rect_raw(div, Color.COMMENT_DIVIDER);
                 }
             }
         }
+
+        //-
+
 
         // Draw ruler
         if buffer_settings.show_ruler_at_column > 0 {
@@ -1620,6 +1628,55 @@ draw_editor :: (editor_id: s64, main_area: Rect, ui_id: Ui_Id, pane: *Editor_Pan
                 }
             }
         }
+
+        //- neo: Draw current hard divider sticky at top
+
+        if config.settings.show_comment_dividers {
+            // Find the first hard divider from the first visible line to the start of the file
+            for #v2 < line_num : 0..visible_lines_start {
+                line := get_line_as_string(editor, buffer, xx line_num);
+
+                if starts_with(trim(line), "//~") {
+                    sticky_rect_height := line_height * 2;
+                    sticky_rect := rect;
+                    sticky_rect.y = sticky_rect.y + sticky_rect.h - sticky_rect_height;
+                    sticky_rect.h = sticky_rect_height;
+                    draw_rect(sticky_rect, Color.BACKGROUND_0, extra_draw_info = .{is_background = true});
+
+                    if line_num == 0 break;
+
+                    // @TODO maybe handle more cases than just 2-line hard divider comment?
+                    comment_divider_line_nums := int.[line_num-1, line_num];
+                    comment_divider_code_lines := NewArray(2, Simp.Code_Line,, allocator = temp);
+
+                    for line_num, divider_line_index : comment_divider_line_nums {
+                        line_start := get_line_start_offset(editor, buffer, xx line_num);
+                        length     := get_line_start_offset(editor, buffer, (cast(s32) line_num) + 1) - line_start;
+                        line       := cast(string) to_view(buffer.bytes, line_start, length);
+                        tab_spaces := 0;
+                        line, tab_spaces = advance_by_chars(line, hidden_chars_on_the_left, tab_size);
+                        line = take_first_n_chars(line, max_chars_horizontally, tab_size);
+                        line = trim_right(line, " \r\n");
+                        tokens := ifx line then to_view(buffer.tokens, line.data - buffer.bytes.data, line.count) else .[];
+                        comment_divider_code_lines[divider_line_index] = .{ line = line, start_offset = line_start, tab_spaces = xx tab_spaces, tokens = xx,force tokens };
+                    }
+
+                    sticky_pen := top_left(rect) + text_offset;
+
+
+                    draw_code(font_main, sticky_pen, comment_divider_code_lines, tab_size, selections, start_col = hidden_chars_on_the_left, is_colored = buffer.tokens.count > 0);
+
+                    // Draw bottom border
+                    bottom_border_rect := sticky_rect;
+                    bottom_border_rect.h = 2;
+                    draw_rect(bottom_border_rect, Color.COMMENT_DIVIDER);
+
+                    break;
+                }
+            }
+        }
+
+        //-
 
         // Draw cursors when they are active
         cursor_as_block := buffer_settings.cursor_as_block && !as_build_panel;

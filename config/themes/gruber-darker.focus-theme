@@ -1,4 +1,4 @@
-[23]  # Version number. Do not delete.
+[25]  # Version number. Do not delete.
 
 # Based on the gruber darker theme by Jason Blevins
 # https://github.com/rexim/gruber-darker-theme
@@ -114,3 +114,6 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+
+# Added after migration to version [25]
+comment_divider:                        FCEDFC26
