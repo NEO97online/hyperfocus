@@ -642,6 +642,8 @@ ADDED_COLORS :: Added_Color.[
     .{ 21, "code_deletion"  ,                  "",                       "E64D4DFF" },
     .{ 21, "region_addition",                  "",                       "2260224C" },
     .{ 21, "region_deletion",                  "",                       "7722224C" },
+
+    .{ 25, "comment_divider",                  "",                       "FCEDFC26" },
 ];
 
 
@@ -1747,6 +1749,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -1835,6 +1838,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -2022,6 +2026,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -2151,6 +2156,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 [[keymap]]
 
@@ -2445,6 +2451,7 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG
 
@@ -2626,5 +2633,6 @@ code_addition:                          33B333FF
 code_deletion:                          E64D4DFF
 region_addition:                        2260224C
 region_deletion:                        7722224C
+comment_divider:                        FCEDFC26
 
 FOCUS_CONFIG

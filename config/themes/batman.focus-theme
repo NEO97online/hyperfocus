@@ -1,4 +1,4 @@
-[19]  # Version number. Do not delete.
+[25]  # Version number. Do not delete.
 
 [colors]
 background0:                            000000FF
@@ -112,3 +112,14 @@ code_comment_highlight1:                9F8FF6FF
 code_comment_highlight2:                FF0000FF
 code_comment_highlight3:                8FE5F6FF
 code_comment_highlight4:                DFA811FF
+
+# Added after migration to version [24]
+cursor_line_highlight:                  232328FF
+color_preview_title_bar:                232328FF
+code_addition:                          33B333FF
+code_deletion:                          E64D4DFF
+region_addition:                        2260224C
+region_deletion:                        7722224C
+
+# Added after migration to version [25]
+comment_divider:                        FCEDFC26
